@@ -1,25 +1,39 @@
 #!/bin/bash
 
 AMI_ID="ami-0220d79f3f480ecf5"
-SG_ID="sg-0629e944a73597de8" # replace with your SG_id
-INSTANCES=("mongodb")
-ZONE_ID="Z06008633JIHZ67B3RC4Q"  # replace with your zone_id
-DOMAIN_NAME="kimidi.site"  # replace with your Domain Name
+SG_ID="sg-0629e944a73597de8"
 SUBNET_ID="subnet-040e46e23d5653bd4"
 
-#for instance in ${INSTANCES[@]}
-for instance in $@
-do 
-  INSTANCE_ID=$(aws ec2 run-instances --image-id ami-0220d79f3f480ecf5 --instance-type t3.micro --subnet-id "$SUBNET_ID" \ --security-group-ids sg-0629e944a73597de8 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
-  if [ "$instance" != "frontend" ]
-  then
-     IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
-     RECORD_NAME="$instance.$DOMAIN_NAME"
+ZONE_ID="Z06008633JIHZ67B3RC4Q"
+DOMAIN_NAME="kimidi.site"
 
-  else
-    IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
-    RECORD_NAME="$instance.$DOMAIN_NAME"
+INSTANCES=("mongodb")
 
-fi
-echo "$instance IP address: $IP"
-done 
+for instance in "$@"
+do
+
+    INSTANCE_ID=$(aws ec2 run-instances --image-id "$AMI_ID" --instance-type t3.micro --subnet-id "$SUBNET_ID" --security-group-ids "$SG_ID" --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" --query "Instances[0].InstanceId" --output text)
+
+    if [ $? -ne 0 ] || [ -z "$INSTANCE_ID" ]; then
+        echo "ERROR: Failed to create $instance instance"
+        exit 1
+    fi
+
+    echo "$instance instance created: $INSTANCE_ID"
+
+    if [ "$instance" != "frontend" ]
+    then
+        IP=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+
+        RECORD_NAME="$instance.$DOMAIN_NAME"
+
+    else
+
+        IP=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+
+        RECORD_NAME="$instance.$DOMAIN_NAME"
+
+    fi
+
+    echo "$instance IP address: $IP"
+done
