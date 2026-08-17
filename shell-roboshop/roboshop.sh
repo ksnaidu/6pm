@@ -7,7 +7,7 @@ SUBNET_ID="subnet-040e46e23d5653bd4"
 ZONE_ID="Z06008633JIHZ67B3RC4Q"
 DOMAIN_NAME="kimidi.site"
 
-INSTANCES=("mongodb")
+INSTANCES=("mongodb") 
 
 for instance in "$@"
 do
