@@ -80,9 +80,8 @@ VALIDATE $? "Installing MongoDB Client"
 STATUS=$(mongosh --host mongodb.kimidi.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 if [ $STATUS -lt 0 ]
 then
-    mongosh --host mongodb.kimdi.site </app/db/master-data.js &>>$LOG_FILE
+    mongosh --host mongodb.kimidi.site </app/db/master-data.js &>>$LOG_FILE
     VALIDATE $? "Loading data into MongoDB"
 else
     echo -e "Data is already loaded ... $Y SKIPPING $N"
 fi
-
