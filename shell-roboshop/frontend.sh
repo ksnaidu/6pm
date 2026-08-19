@@ -33,35 +33,34 @@ VALIDATE(){
     fi
 }
 
-
-dnf module disable nginx -y
-VALIDATE $? "Defalut nginx disabled"
+dnf module disable nginx -y 
+VALIDATE $? "Disabling default nginx"
 
 dnf module enable nginx:1.24 -y
-VALIDATE $? "Enbaling nginx:1.24"
+VALIDATE $? "Enabling nginx:1.24"
 
-dnf install nginx -y
+dnf install nginx -y 
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx 
-VALIDATE $? "ENabling nginx"
-
-systemctl start nginx 
-VALIDATE $? "Start nginx"
+systemctl enable nginx
+systemctl start nginx
+VALIDATE $? "Starting nginx"
 
 rm -rf /usr/share/nginx/html/* 
-VALIDATE $? "Remove defalut nginx"
+VALIDATE $? "Removing default content"
 
 curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-VALIDATE $? "Download frontend code"
+VALIDATE $? "Downloading frontend"
 
 cd /usr/share/nginx/html 
 unzip /tmp/frontend.zip
-VALIDATE $? "Unzip the frontend code"
+VALIDATE $? "Unzipping frontend"
 
-cp /nginx /etc/nginx/nginx.conf
-VALIDATE $? "Copy the nginx.conf file"
+rm -rf /etc/nginx/nginx.conf
+VALIDATE $? "Removing default nginx.conf"
 
-systemctl restart nginx 
-VALIDATE $? "restart Nginx"
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
+VALIDATE $? "Copying nginx.conf"
 
+systemctl restart nginx
+VALIDATE $? "Restarting nginx"
