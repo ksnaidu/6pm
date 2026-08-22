@@ -1,66 +1,44 @@
 #!/bin/bash
 
-USERID=$(id -u)
-R="\e[31m"
-G="\e[32m"
-Y="\e[33m"
-N="\e[0m"
-LOGS_FOLDER="/var/log/roboshop-logs"
-SCRIPT_NAME=$(echo $0 | cut -d "." -f1)
-LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
-SCRIPT_DIR=$PWD
+AMI_ID="ami-0220d79f3f480ecf5"
+SG_ID="sg-0629e944a73597de8" # replace with your SG_id
+INSTANCES=("mongodb" "catalogue" "frontend" "redis" "user" "cart")
+ZONE_ID="Z06008633JIHZ67B3RC4Q"  # replace with your zone_id
+DOMAIN_NAME="kimidi.site"  # replace with your Domain Name
 
-mkdir -p $LOGS_FOLDER
-echo "Script started executing at: $(date)" | tee -a $LOG_FILE
+#for instance in ${INSTANCES[@]}
+for instance in $@
+do 
+  INSTANCE_ID=$(aws ec2 run-instances --image-id ami-0220d79f3f480ecf5 --instance-type t3.micro --security-group-ids sg-0629e944a73597de8 --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
+  if [ "$instance" != "frontend" ]
+  then
+     IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
+     RECORD_NAME="$instance.$DOMAIN_NAME"
 
-# check the user has root priveleges or not
-if [ $USERID -ne 0 ]
-then
-    echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
-    exit 1 #give other than 0 upto 127
-else
-    echo "You are running with root access" | tee -a $LOG_FILE
+  else
+    IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
+    RECORD_NAME="$instance.$DOMAIN_NAME"
+
 fi
+echo "$instance IP address: $IP"
 
-# validate functions takes input as exit status, what command they tried to install
-VALIDATE(){
-    if [ $1 -eq 0 ]
-    then
-        echo -e "$2 is ... $G SUCCESS $N" | tee -a $LOG_FILE
-    else
-        echo -e "$2 is ... $R FAILURE $N" | tee -a $LOG_FILE
-        exit 1
-    fi
-}
 
-dnf module disable nginx -y 
-VALIDATE $? "Disabling default nginx"
 
-dnf module enable nginx:1.24 -y
-VALIDATE $? "Enabling nginx:1.24"
-
-dnf install nginx -y 
-VALIDATE $? "Installing nginx"
-
-systemctl enable nginx
-systemctl start nginx
-VALIDATE $? "Starting nginx"
-
-rm -rf /usr/share/nginx/html/* 
-VALIDATE $? "Removing default content"
-
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
-VALIDATE $? "Downloading frontend"
-
-cd /usr/share/nginx/html 
-unzip /tmp/frontend.zip
-VALIDATE $? "Unzipping frontend"
-
-rm -rf /etc/nginx/nginx.conf
-VALIDATE $? "Removing default nginx.conf"
-
-cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
-VALIDATE $? "Copying nginx.conf"
-
-systemctl restart nginx
-VALIDATE $? "Restarting nginx"
+aws route53 change-resource-record-sets \
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Creating or Updating a record set for cognito endpoint"
+        ,"Changes": [{
+        "Action"              : "UPSERT"
+        ,"ResourceRecordSet"  : {
+            "Name"              : "'$RECORD_NAME'"
+            ,"Type"             : "A"
+            ,"TTL"              : 1
+            ,"ResourceRecords"  : [{
+                "Value"         : "'$IP'"
+            }]
+        }
+        }]
+    }'
+done
