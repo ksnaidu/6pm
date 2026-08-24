@@ -83,3 +83,31 @@ print_time(){
     TOTAL_TIME=$(($END_TIME - $START_TIME))
     echo -e "Script executed successfully, $Y Time taken: $TOTAL_TIME seconds $N"
 }
+
+
+maven_setup(){
+
+    
+dnf install maven -y &>>$LOG_FILE
+VALIDATE $? "Installing Maven and Java"
+
+mvn clean package &>>LOG_FILE
+VALIDATE $? "Packaging the shipping application"
+
+mv target/shipping-1.0.jar shipping.jar &>>LOG_FILE
+VALIDATE $? "Mvoing and renaming jar file"
+
+
+}
+
+python_setup(){
+dnf install python3 gcc python3-devel -y &>>LOG_FILE
+VALIDATE $? "Installing python3 packages"
+
+pip3 install -r requirements.txt &>>LOG_FILE
+VALIDATE $? "Installing dependencies"
+
+cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>LOG_FILE
+VALIDATE $? "Copying payment service"
+
+}
