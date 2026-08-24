@@ -86,8 +86,7 @@ print_time(){
 
 
 maven_setup(){
-
-    
+ 
 dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "Installing Maven and Java"
 
@@ -111,3 +110,4 @@ cp $SCRIPT_DIR/payment.service /etc/systemd/system/payment.service &>>LOG_FILE
 VALIDATE $? "Copying payment service"
 
 }
+
