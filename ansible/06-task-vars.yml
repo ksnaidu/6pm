@@ -3,13 +3,13 @@
   hosts: local
   connection: local
   vars:
-    COURSE: Devops with aws ## Equal to COURSE=Ansible in shell, Hell we refer $VAR or ${var}
+    COURSE: Devops with aws
     DURATION: 10HR
-    TRAINER: 
+    TRAINER: null
   tasks:
-  - name: Print course information
-    vars:
-    COURSE: Ansible
-    ansible.builtin.debug:
-       msg: "Hello {{ COURSE }},Course Duration {{ DURATION }},Trainer is {{ TRAINER }}"
+    - name: Print course information
+      vars:
+        COURSE: Ansible
+      ansible.builtin.debug:
+        msg: Hello {{ COURSE }},Course Duration {{ DURATION }},Trainer is {{ TRAINER }}
 
