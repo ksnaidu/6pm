@@ -5,7 +5,7 @@
   vars:
     COURSE: Devops with aws
     DURATION: 10HR
-    TRAINER: null
+    TRAINER: satyam
   tasks:
     - name: Print course information
       vars:
