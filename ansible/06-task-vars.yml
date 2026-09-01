@@ -1,0 +1,15 @@
+---
+- name: task level varaibles
+  hosts: local
+  connection: local
+  vars:
+    COURSE: Devops with aws ## Equal to COURSE=Ansible in shell, Hell we refer $VAR or ${var}
+    DURATION: 10HR
+    TRAINER: 
+  tasks:
+  - name: Print course information
+    vars:
+    COURSE: Ansible
+    ansible.builtin.debug:
+       msg: "Hello {{ COURSE }},Course Duration {{ DURATION }},Trainer is {{ TRAINER }}"
+
