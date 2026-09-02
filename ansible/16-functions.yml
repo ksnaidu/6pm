@@ -12,3 +12,17 @@
   - name: print names
     ansible.builtin.debug:
       msg: "Hello {{ persons | split(',') }}"
+
+  - name: convert to uppercase
+    vars:
+     name: "satyam naidu k"
+    ansible.builtin.debug:
+      msg: "Hello {{ name | upper }}"
+
+  - name: convert to lowercase
+    vars:
+     name: "SAtyam naidu K"
+    ansible.builtin.debug:
+      msg: "Hello {{ name | lower }}"
+
+
