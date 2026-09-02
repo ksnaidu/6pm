@@ -1,0 +1,10 @@
+---
+- name: functions
+  hosts: local
+  connection: local
+  tasks:
+  - name: check undefined varaible
+    ansible.builtin.debug:
+      msg: "hello {{ person | default('ramesh')}}"
+
+      
