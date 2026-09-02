@@ -3,7 +3,7 @@
   hosts: local
   connection: local
   vars:
-  persons:"ramesh,suresh,raheem,joseph"
+   persons: "Ramesh, Suresh, Raheem, Joseph"
   tasks:
   - name: check undefined varaible
     ansible.builtin.debug:
