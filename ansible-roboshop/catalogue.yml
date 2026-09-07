@@ -68,7 +68,7 @@
       state: present
 
   - name: check products loaded or not
-    ansible.builtin.command: mongosh --host mongodb.kimidi.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
+    ansible.builtin.command: mongosh --host 100.53.5.58 --eval 'db.getMongo().getDBNames().indexOf("catalogue")'
     register: catalogue_output
 
   - name: print catalogue output
@@ -76,5 +76,5 @@
       msg: "{{ catalogue_output }}"
 
   - name: load products
-    ansible.builtin.shell: mongosh --host mongodb.kimidi.site < /app/db/master-data.js
+    ansible.builtin.shell: mongosh --host 100.53.5.58 < /app/db/master-data.js
     when: catalogue_output.stdout | int < 0 #If "1" means data exists, and "0" means no data.
