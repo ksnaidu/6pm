@@ -9,14 +9,14 @@ variable "instance_type" {
   
 }
 
-variable "ec2_tags" {
-    type = map(string)
-    default = {
-      name = "roboshop"
-      purpose = "variables-demo"
+# variable "ec2_tags" {
+#     type = map(string)
+#     default = {
+#       name = "roboshop"
+#       purpose = "variables-demo"
 
-    }
-}
+#     }
+
 
 variable "sg_name" {
     default = "allow-all"
@@ -55,5 +55,10 @@ variable "sg_tags" {
 
 variable "environment" {
     default = "dev"
+  
+}
+
+variable "instances" {
+    default = ["mongodb", "redis", "mysql", "rabbitmq"]
   
 }
