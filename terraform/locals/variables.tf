@@ -1,5 +1,5 @@
 variable "project" {
-    default = roboshop
+    default = "roboshop"
   
 }
 
@@ -16,8 +16,7 @@ variable "component" {
 variable "common_tags" {
     default = {
         project = "roboshop"
-        Terraform = "true"
+        terraform = "true"
     }
   
 }
-
