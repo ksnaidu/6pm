@@ -5,7 +5,7 @@ terraform {
         version = "5.98.0"
     }
   }
-}
+
 
   backend "s3" {
     bucket = "6pm-remote-state"
@@ -15,7 +15,7 @@ terraform {
     encrypt       = true
     use_lockfile  = true
   }
-
+}
 #configure the aws provider
 provider "aws" {
     region = "us-east-1"
