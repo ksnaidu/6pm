@@ -13,7 +13,7 @@ terraform {
     region = "us-east-1"
     # dynamodb_table= "11am-remote-state-lock"
     encrypt       = true
-    use_lockfile  = true
+    use_lockfile  = false
   }
 }
 #configure the aws provider
