@@ -11,6 +11,20 @@ resource "aws_instance" "roboshop" {
   }
 }
 
+   connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf install nginx -y",
+      "sudo systemctl start nginx",
+    ]
+  }
+
 resource "aws_security_group" "allow_all" {
     name        = var.sg_name
     description = var.sg_description
