@@ -9,7 +9,7 @@ resource "aws_instance" "roboshop" {
     command = "echo ${self.private_ip} > inventory"
     #on_failure = continue #ignoring errors
   }
-
+}
 
 resource "aws_security_group" "allow_all" {
     name        = var.sg_name
