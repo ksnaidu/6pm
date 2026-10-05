@@ -19,3 +19,10 @@ variable "tags" {
   
 }
 
+variable "sg_ids" {
+    type = list 
+  
+}
+
+
+
