@@ -1,6 +1,7 @@
-variable "aws_security_group_ids" {
+
+
+variable "security_group_ids" {
     default = ["sg-0b03fbb6aa7794779"]
-  
 }
 
 variable "tags" {
@@ -9,10 +10,8 @@ variable "tags" {
         Terraform = "true"
         Environment = "dev"
     }
-  
 }
 
 variable "instance_type" {
     default = "t3.small"
-  
 }
