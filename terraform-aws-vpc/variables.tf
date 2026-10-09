@@ -24,7 +24,7 @@ variable "vpc_tags" {
 	  default = {}
 }
 
-variable "public_subnet_cidr" {
+variable "public_subnet_cidrs" {
     type = list(string)
   
 }
