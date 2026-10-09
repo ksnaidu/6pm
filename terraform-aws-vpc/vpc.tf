@@ -29,3 +29,18 @@ resource "aws_internet_gateway" "main" {
   )
   
 }
+
+
+##subnets
+
+# resource "aws_subnet" "public" {
+#   count = length(var.public_subnet_cidr)
+#   vpc_id = aws_vpc.main.id
+#   cidr_block = var.public_subnet_cidr[count.index]  # exicute 2 subnets
+
+
+#   tags = {
+#     Name = "Main"
+#   }
+  
+# }
