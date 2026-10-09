@@ -1,9 +1,7 @@
 data "aws_availability_zones" "available" {
-    state = available
-  
+    state =  "available"
 }
 
 output "azs_info" {
-    value = data.aws_availability_zones.available   ##testing purpose
-  
+    value = data.aws_availability_zones.available
 }
