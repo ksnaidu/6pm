@@ -1,5 +1,6 @@
 module "vpc" {
-    source = "../terraform-aws-vpc"
+    #source = "../terraform-aws-vpc"
+    source = "git::https://github.com/ksnaidu/6pm.git/(terraform-aws-vpc?ref=main"
     # project = "roboshop"
     # environment = "dev"
     # public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]  ## add the 2 subnets
