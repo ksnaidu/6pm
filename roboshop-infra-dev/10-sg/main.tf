@@ -1,4 +1,4 @@
-  module "frontend" {
+ module "frontend" {
     source = "../../terraform-aws-securitygroup"
 	  project = var.project
     environment = var.environment
