@@ -35,3 +35,16 @@ resource "aws_security_group_rule" "bastion_laptop" {
   security_group_id = module.bastion.sg_id
   
 }
+
+
+ module "backend_alb" {
+    source = "../../terraform-aws-securitygroup"
+	  project = var.project
+    environment = var.environment
+
+    sg_name = "backend-alb"
+    sg_description = "for backend-alb"
+    vpc_id = local.vpc_id
+    
+    vpc_id = local.vpc_id  ##vpc-id stored in ssm parameter after create.
+}
