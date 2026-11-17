@@ -29,3 +29,5 @@ resource "aws_ssm_parameter" "mongodb_sg_id" {
   type  = "String"
   value = module.mongodb.sg_id
 }
+
+
