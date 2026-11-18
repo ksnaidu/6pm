@@ -30,3 +30,31 @@ tags = merge(
     }
   )
 }
+
+
+resource "terraform_data" "catalogue" {
+  triggers_replace = [
+    aws_instance.catalogue.id
+  ]
+  
+  provisioner "file" {
+    source      = "catalogue.sh"
+    destination = "/tmp/catalogue.sh"
+  }
+
+  connection {
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    host     = aws_instance.catalogue.private_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "chmod +x /tmp/catalogue.sh",
+      "sudo sh /tmp/catalogue.sh catalogue ${var.environment}"
+    ]
+  }
+}
+
+
