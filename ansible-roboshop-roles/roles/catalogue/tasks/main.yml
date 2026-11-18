@@ -39,4 +39,4 @@
 - name: systemd setup
   include_role:
     name: common
-    tasks_from: systemd.yaml
+    tasks_from: systemd.yml
