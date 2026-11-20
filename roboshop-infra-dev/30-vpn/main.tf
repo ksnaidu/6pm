@@ -19,3 +19,13 @@ resource "aws_key_pair" "openvpn" {
     public_key = file("C:\\Devops\\openvpn.pub")
   
 }
+
+
+resource "aws_route53_record" "vpn" {
+  zone_id = var.zone_id
+  name    = "vpn-${var.environment}.${var.zone_name}"  ## vpn-dev.kimidi.online 
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.vpn.public_ip]
+  allow_overwrite = true 
+}
