@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     aws = {
-        source = "hashicorp/aws"
-        version = "5.98.0"
+      source  = "hashicorp/aws"
+      version = "5.98.0"
     }
   }
 
@@ -12,12 +12,12 @@ terraform {
     key    = "roboshop-dev-frontend-alb"
     region = "us-east-1"
     # dynamodb_table= "11am-remote-state-lock"
-    encrypt       = true
-    use_lockfile  = true
+    encrypt      = true
+    use_lockfile = true
   }
 }
 #configure the aws provider
 provider "aws" {
-    region = "us-east-1"
-  
+  region = "us-east-1"
+
 }

@@ -48,6 +48,17 @@ module "backend_alb" {
     vpc_id = local.vpc_id
 }
 
+module "frontend_alb" {
+    source = "../../terraform-aws-securitygroup"
+    #source = "git::https://github.com/daws-84s/terraform-aws-securitygroup.git?ref=main"
+    project = var.project
+    environment = var.environment
+
+    sg_name = "frontend-alb"
+    sg_description = "for frontend alb"
+    vpc_id = local.vpc_id
+}
+
 resource "aws_security_group_rule" "backend_alb_bastion" {
   type              = "ingress"
   from_port         = 80
