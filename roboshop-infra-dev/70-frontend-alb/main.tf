@@ -4,7 +4,7 @@ module "frontend_alb" {
   internal = false
   name    = "${var.project}-${var.environment}-frontend-alb" #roboshop-dev-frontend-alb
   vpc_id  = local.vpc_id
-  subnets = local.publicsubnet_subnet_ids
+  subnets = local.public_subnet_ids
   create_security_group = false
   security_groups = [local.frontend_alb_sg_id]
   enable_deletion_protection = false
@@ -21,7 +21,7 @@ resource "aws_lb_listener" "frontend_alb" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy = "ELBSecurityPolicy-2016-08"
-  certificate_arn = local.acm_certificate_arn
+  certificate_arn   = local.acm_certificate_arn
  
 
   default_action {
