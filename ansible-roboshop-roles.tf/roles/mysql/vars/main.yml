@@ -1,1 +1,2 @@
-MYSQL_HOST: mysql.kimidi.site
+
+MYSQL_HOST: mysql.backend-{{ env }}.kimidi.online

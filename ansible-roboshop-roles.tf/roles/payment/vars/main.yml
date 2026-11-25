@@ -1,5 +1,5 @@
-CART_HOST: cart.kimidi.site
-USER_HOST: user.kimidi.site
-RABBITMQ_HOST: rabbitmq.kimidi.site
+CART_HOST: cart.backend-{{ env }}.kimidi.online
+USER_HOST: user.backend-{{ env }}.kimidi.online
+RABBITMQ_HOST: rabbitmq-{{ env }}.kimidi.online
 RABBITMQ_USER: roboshop
 RABBITMQ_PASSWORD: roboshop123

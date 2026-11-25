@@ -1,5 +1,5 @@
-CATALOGUE_HOST: catalogue.kimidi.site
-USER_HOST: user.kimidi.site
-CART_HOST: cart.kimidi.site
-SHIPPING_HOST: shipping.kimidi.site
-PAYMENT_HOST: payment.kimidi.site
+CATALOGUE_HOST: catalogue.backend-{{ env }}.kimidi.online
+CART_HOST: cart.backend-{{ env }}.kimidi.online
+USER_HOST: user.backend-{{ env }}.kimidi.online
+SHIPPING_HOST: shipping.backend-{{ env }}.kimidi.online
+PAYMENT_HOST: payment.backend-{{ env }}.kimidi.online

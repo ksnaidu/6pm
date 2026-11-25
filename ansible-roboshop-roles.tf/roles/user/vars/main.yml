@@ -1,2 +1,6 @@
-REDIS_HOST: redis.kimidi.site 
-MONGODB_HOST: mongodb.kimidi.site
+# REDIS_HOST: redis.kimidi.site 
+# MONGODB_HOST: mongodb.kimidi.site
+
+ REDIS_HOST: redis- {{ env }}.kimidi.online
+ MONGODB_HOST: mongodb- {{ env}}.kimidi.online
+

@@ -1,4 +1,4 @@
-MYSQL_HOST: mysql.kimidi.site
+MYSQL_HOST: mysql-{{ env }}.kimidi.online
+CART_HOST: cart.backend-{{ env }}.kimidi.online
 MYSQL_ROOT_USER: root
 MYSQL_ROOT_PASSWORD: RoboShop@1
-CART_HOST: cart.kimidi.site
