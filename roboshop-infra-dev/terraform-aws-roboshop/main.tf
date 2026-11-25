@@ -1,5 +1,5 @@
 resource "aws_lb_target_group" "main" {
-  name     = "${var.project}-${var.environment}-${var.component}" 
+  name     = "${var.project}-${var.environment}-${var.component}" #roboshop-dev-${var.component}
   port     = local.tg_port
   protocol = "HTTP"
   vpc_id   = local.vpc_id
@@ -183,8 +183,8 @@ resource "aws_autoscaling_policy" "main" {
 }
 
 resource "aws_lb_listener_rule" "main" {
-  listener_arn = local.backend_alb_listener_arn
-  priority     = 10
+  listener_arn = local.alb_listener_arn
+  priority     = var.rule_priority
 
   action {
     type             = "forward"
@@ -193,8 +193,7 @@ resource "aws_lb_listener_rule" "main" {
 
   condition {
     host_header {
-      values = ["catalogue.backend-${var.environment}.${var.zone_name}"]
+      values = [local.rule_header_url]
     }
   }
 }
-
