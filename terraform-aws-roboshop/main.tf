@@ -161,7 +161,7 @@ resource "aws_autoscaling_group" "main" {
     preferences {
       min_healthy_percentage = 50
     }
-    triggers = ["launch_template"]
+    #triggers = ["launch_template"]
   }
 
   timeouts{
@@ -183,8 +183,9 @@ resource "aws_autoscaling_policy" "main" {
 }
 
 resource "aws_lb_listener_rule" "main" {
-  listener_arn = local.alb_listener_arn
-  priority     = var.rule_priority
+  listener_arn = var.component == "frontend" ? local.frontend_alb_listener_arn : local.backend_alb_listener_arn
+
+  priority = var.rule_priority
 
   action {
     type             = "forward"
