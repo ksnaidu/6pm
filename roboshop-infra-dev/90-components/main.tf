@@ -1,6 +1,12 @@
 module "component" {
-    #source = "../../terraform-aws-roboshop"
-    source = "git::https://github.com/6pm/terraform-aws-roboshop.git?ref=main"
-    component = each.key
-    rule_priority = each.value.rule_priority
+  # Local module source
+  # source = "../../terraform-aws-roboshop"
+
+  # GitHub module source
+  source = "git::https://github.com/ksnaidu/6pm.git//terraform-aws-roboshop?ref=main"
+
+  for_each = var.components
+
+  component     = each.key
+  rule_priority = each.value.rule_priority
 }

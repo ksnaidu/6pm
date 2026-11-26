@@ -7,6 +7,8 @@ terraform {
   }
 
 
+
+
   backend "s3" {
     bucket = "6pm-remote-state-dev"
     key    = "roboshop-dev-components"
